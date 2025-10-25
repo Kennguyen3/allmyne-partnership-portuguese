@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+.container {
+    @apply max-w-6xl mx-auto px-4 sm:px-6;
+}
+
+.h1 {
+    @apply text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl;
+    font-family: theme('fontFamily.serif');
+}
+
+.h2 {
+    @apply text-xl font-semibold sm:text-2xl md:text-3xl;
+    font-family: theme('fontFamily.serif');
+}
+
+.lead {
+    @apply text-slate-600 text-base md:text-lg;
+}
+
+.btn {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-full font-semibold transition border border-slate-200;
+}
+
+.btn-primary {
+    @apply bg-slate-900 text-white border-slate-900 hover:bg-black;
+}
+
+.btn-ghost {
+    @apply bg-white text-slate-900 hover:bg-slate-50;
+}
+
+.btn-full {
+    @apply w-full md:w-auto;
+}
+
+.card {
+    @apply bg-white border border-slate-200 rounded-xl2 shadow-card;
+}
+
+.link {
+    @apply underline decoration-slate-300 underline-offset-4 hover:decoration-slate-900;
+}
+
+
+.btn-outline {
+    @apply border border-slate-300 hover:bg-slate-50;
+}
+
+.card {
+    @apply bg-white border border-slate-200 rounded-2xl shadow-card;
+}
+
+.input {
+    @apply w-full border border-slate-300 rounded-xl p-3 text-base;
+}
+
+@layer utilities {
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fadeIn {
+        animation: fadeIn 0.5s ease-out;
+    }
+}
