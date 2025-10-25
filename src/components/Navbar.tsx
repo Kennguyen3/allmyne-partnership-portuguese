@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { IMAGES } from '../assets/images'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -6,7 +7,7 @@ export default function Navbar() {
     <div className="w-full border-b border-slate-200 sticky top-0 bg-white/90 backdrop-blur z-40">
       <div className="container py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src="/src/assets/logo.svg" alt="ALLMYNE" className="h-40 w-40 rounded" />
+          <img src={IMAGES.allmyneLogo} alt="ALLMYNE" className="h-40 w-40 rounded" />
           <div className="flex flex-col leading-tight">
             {/* <span className="font-bold tracking-wide">ALLMYNE</span> */}
             {/* <span className="text-xs text-slate-500">Miles &amp; More Partnership</span> */}
@@ -30,7 +31,7 @@ export default function Navbar() {
 
         {/* Hamburger */}
         <button aria-label="Open menu" onClick={() => setOpen(!open)} className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-md border border-slate-200">
-          <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
+          <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h14M3 10h14M3 14h14" /></svg>
         </button>
       </div>
 
