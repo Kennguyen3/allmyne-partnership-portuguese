@@ -1,7 +1,9 @@
 import React, { useMemo, useRef, useState } from 'react'
 import OTPModal from './OTPModal'
+import axios from "axios";
 
 const API_UPLOAD = 'https://api.allmyne.com/event/upload'
+export const API_URL = 'https://new-backend.allmyne.com'
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
@@ -21,6 +23,7 @@ export default function UploadCard() {
   const [otpOpen, setOtpOpen] = useState(false)
   const [progress, setProgress] = useState<number>(0)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
+  const [isSendingOTP, setIsSendingOTP] = useState(false)
 
   const isContactValid = useMemo(() => {
     const v = contact.trim()
@@ -82,6 +85,28 @@ export default function UploadCard() {
     }
   }
 
+  const handleSendOtp = async () => {
+    try {
+      setIsSendingOTP(true);
+      const res = await axios.post(API_URL + '/api/auth/send-code', {
+        email: contact,
+      });
+
+      console.log("Send OTP response:", res.data);
+      if (res.data) {
+        // ✅ Gửi OTP thành công → mở popup nhập mã
+        setOtpOpen(true);
+      } else {
+        alert("Send OTP failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Send OTP error:", error);
+      alert("An error occurred while sending OTP.");
+    } finally {
+      setIsSendingOTP(false);
+    }
+  };
+
   return (
     <section className="container pb-10">
       <form onSubmit={onSubmit} className="card p-5 sm:p-6 space-y-5">
@@ -103,18 +128,45 @@ export default function UploadCard() {
             />
             <button
               type="button"
-              disabled={!isContactValid}
-              onClick={() => setOtpOpen(true)}
-              className="btn btn-outline disabled:opacity-50"
-              title={isContactValid ? 'Gửi & nhập OTP' : 'Nhập liên hệ hợp lệ để Verify'}
+              disabled={!isContactValid || isSendingOTP}
+              onClick={handleSendOtp}
+              className={`btn btn-outline flex items-center justify-center gap-2 ${!isContactValid ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              title={isContactValid ? "Gửi & nhập OTP" : "Nhập liên hệ hợp lệ để Verify"}
             >
-              Verify
+              {isSendingOTP ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 text-blue-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    ></path>
+                  </svg>
+                  <span>Sending...</span>
+                </>
+              ) : (
+                "Verify"
+              )}
             </button>
           </div>
           {!isContactValid && contact && (
-            <div className="text-xs text-red-600">Định dạng không hợp lệ. VD: you@example.com hoặc +8490xxxxxxx</div>
+            <div className="text-xs text-red-600">Invalid format. E.g., you@example.com or +8490xxxxxxx</div>
           )}
-          {verified && <div className="text-xs text-green-600">✔ Đã xác thực liên hệ</div>}
+          {verified && <div className="text-xs text-green-600">✔ Contact verified</div>}
         </div>
 
         <div className={`space-y-2 ${verified ? '' : 'opacity-50 pointer-events-none'}`}>
