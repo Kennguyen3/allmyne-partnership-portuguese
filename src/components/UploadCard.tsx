@@ -12,7 +12,6 @@ function isValidPhone(value: string) {
   return /^\+?[1-9]\d{6,14}$/.test(value.replace(/\s+/g, ''))
 }
 
-// test deploy
 export default function UploadCard() {
   const [contact, setContact] = useState('')
   const [verified, setVerified] = useState(false)
