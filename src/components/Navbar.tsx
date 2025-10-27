@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { IMAGES } from '../assets/images'
+import logo from '../assets/logo.svg'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -7,7 +8,7 @@ export default function Navbar() {
     <div className="w-full border-b border-slate-200 sticky top-0 bg-white/90 backdrop-blur z-40">
       <div className="container py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src={IMAGES.allmyneLogo} alt="ALLMYNE" className="h-40 w-40 rounded" />
+          <img src={logo} alt="ALLMYNE" className="h-40 w-40 rounded" />
           <div className="flex flex-col leading-tight">
             {/* <span className="font-bold tracking-wide">ALLMYNE</span> */}
             {/* <span className="text-xs text-slate-500">Miles &amp; More Partnership</span> */}

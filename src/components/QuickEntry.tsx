@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react'
 import UploadCard from './UploadCard'
+import selfieImage from '../assets/selfie-group.png'
 
 export default function QuickEntry() {
     const [showUpload, setShowUpload] = useState(false)
@@ -95,7 +96,7 @@ export default function QuickEntry() {
               alt="ALLMYNE app on phone at beach"
               className="w-full object-cover"
             /> */}
-                        <img src="/src/assets/selfie-group.png" alt="ALLMYNE" className="w-full object-cover" />
+                        <img src={selfieImage} alt="ALLMYNE" className="w-full object-cover" />
                     </div>
                     <div className="bg-brand-light border border-brand/20 rounded-lg p-4 text-sm text-slate-700">
                         <p className="font-semibold mb-1 flex items-center gap-2">
