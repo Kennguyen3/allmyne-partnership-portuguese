@@ -75,10 +75,10 @@ export default function UploadCard() {
       form.append('file', file)
 
       const res = await uploadWithProgress(form)
-      if (!res.ok) throw new Error('Server trả về lỗi')
-      setPopup('🎉 Cảm ơn bạn! Bạn đã gửi thành công và nhận huy hiệu VIP Beach Explorer.')
+      if (!res.ok) throw new Error('Server returned an error')
+      setPopup('🎉 Thanks for your submission!')
     } catch (err: any) {
-      setError(err?.message || 'Gửi thất bại, thử lại sau.')
+      setError(err?.message || 'Submission failed, please try again later.')
     } finally {
       setBusy(false)
       setProgress(0)
@@ -91,10 +91,7 @@ export default function UploadCard() {
       const res = await axios.post(API_URL + '/api/auth/send-code', {
         email: contact,
       });
-
-      console.log("Send OTP response:", res.data);
       if (res.data) {
-        // ✅ Gửi OTP thành công → mở popup nhập mã
         setOtpOpen(true);
       } else {
         alert("Send OTP failed. Please try again.");
@@ -132,7 +129,7 @@ export default function UploadCard() {
               onClick={handleSendOtp}
               className={`btn btn-outline flex items-center justify-center gap-2 ${!isContactValid ? "opacity-50 cursor-not-allowed" : ""
                 }`}
-              title={isContactValid ? "Gửi & nhập OTP" : "Nhập liên hệ hợp lệ để Verify"}
+              title={isContactValid ? "Send and enter OTP" : "Enter a valid contact first"}
             >
               {isSendingOTP ? (
                 <>
