@@ -9,8 +9,6 @@ type Props = {
   contact: string
 }
 
-const API_VERIFY = 'https://api.allmyne.com/event/verify-otp'
-
 export default function OTPModal({ open, onClose, onVerified, contact }: Props) {
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', ''])
   const [busy, setBusy] = useState(false)
