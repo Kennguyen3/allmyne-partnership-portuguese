@@ -31,9 +31,9 @@ export default function Navbar() {
         </div> */}
 
         {/* Hamburger */}
-        <button aria-label="Open menu" onClick={() => setOpen(!open)} className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-md border border-slate-200">
+        {/* <button aria-label="Open menu" onClick={() => setOpen(!open)} className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-md border border-slate-200">
           <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h14M3 10h14M3 14h14" /></svg>
-        </button>
+        </button> */}
       </div>
 
       {/* Mobile menu */}
