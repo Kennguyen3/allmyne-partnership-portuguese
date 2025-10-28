@@ -39,7 +39,7 @@ export default function UploadCard() {
   const uploadWithProgress = (form: FormData) => {
     return new Promise<Response>((resolve, reject) => {
       const xhr = new XMLHttpRequest()
-      xhr.open('POST', API_UPLOAD)
+      xhr.open('POST', API_URL + '/api/partnership-event/upload-image')
       xhr.onload = () => {
         // Create a minimal Response-like object
         const ok = xhr.status >= 200 && xhr.status < 300
@@ -71,8 +71,8 @@ export default function UploadCard() {
       setBusy(true)
       setProgress(0)
       const form = new FormData()
-      form.append('contact', contact.trim())
-      form.append('file', file)
+      form.append('email', contact.trim())
+      form.append('image', file)
 
       const res = await uploadWithProgress(form)
       if (!res.ok) throw new Error('Server returned an error')
