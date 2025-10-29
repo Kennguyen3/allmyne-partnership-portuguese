@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react'
 import OTPModal from './OTPModal'
 import axios from "axios";
+import { countries } from '../utils/countries';
 
 export const API_URL = 'https://new-backend.allmyne.com'
 
@@ -103,12 +104,102 @@ export default function UploadCard() {
     }
   };
 
+
+  const [selectedCountry, setSelectedCountry] = useState({
+    name: "United States",
+    code: "+1",
+    flag: "🇺🇸",
+  });
+
+  const handleCountryChange = (e: any) => {
+    const country = countries.find((c) => c.code === e.target.value);
+    if (country) {
+      setSelectedCountry(country);
+      // Nếu input hiện tại là số, tự động cập nhật prefix
+      if (!contact.includes("@")) {
+        setContact(`${country.code}`);
+        setVerified(false);
+      }
+    }
+  };
+
   return (
     <section className="container pb-10">
       <form onSubmit={onSubmit} className="card p-5 sm:p-6 space-y-5">
         {/* <div className="text-center">
           <h2 className="text-lg font-semibold">Quick Entry</h2>
           <p className="lead">Điền liên hệ → Verify → Tải ảnh → Gửi</p>
+        </div> */}
+
+        {/* 
+        <div className="space-y-2">
+          <label className="block text-sm font-medium">Email or Phone</label>
+          <div className="flex gap-2">
+            <select
+              value={selectedCountry.code}
+              onChange={handleCountryChange}
+              className="border border-gray-300 rounded-lg px-2 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500"
+            >
+              {countries.map((country) => (
+                <option key={country.code} value={country.code}>
+                  {country.flag} {country.name} ({country.code})
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="text"
+              value={contact}
+              onChange={(e) => {
+                setContact(e.target.value);
+                setVerified(false);
+              }}
+              placeholder="Enter your email or WhatsApp number"
+              className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+              inputMode="email"
+            />
+
+            <button
+              type="button"
+              disabled={!isContactValid || isSendingOTP}
+              onClick={handleSendOtp}
+              className={`btn btn-outline flex items-center justify-center gap-2 px-4 py-2 rounded-lg border ${!isContactValid ? "opacity-50 cursor-not-allowed" : "border-blue-500 text-blue-600 hover:bg-blue-50"
+                }`}
+              title={
+                isContactValid
+                  ? "Send and enter OTP"
+                  : "Enter a valid contact first"
+              }
+            >
+              {isSendingOTP ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 text-blue-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    ></path>
+                  </svg>
+                  <span>Sending...</span>
+                </>
+              ) : (
+                "Verify"
+              )}
+            </button>
+          </div>
         </div> */}
 
         <div className="space-y-2">
