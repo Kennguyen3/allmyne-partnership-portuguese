@@ -42,15 +42,15 @@ export default function OTPModal({ open, onClose, onVerified, contact }: Props) 
     console.log('Submitting OTP:', digits)
     console.log('Contact:', contact)
     const otp = digits.join('')
-    if (otp.length !== 6) { setError('Nhập đủ 6 số OTP'); return }
+    if (otp.length !== 6) { setError('Enter 6-digit OTP'); return }
     try {
       setBusy(true); setError(null)
       const res = await axios.post(API_URL + '/api/auth/verify-code', {
-        email: contact,
+        contact: contact,
         code: otp,
       });
       console.log("Verify OTP response:", res.data);
-      if (!res.data) throw new Error('Mã OTP không đúng')
+      if (!res.data) throw new Error('Invalid OTP')
       onClose()
       onVerified()
     } catch (err: any) {

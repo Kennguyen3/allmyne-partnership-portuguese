@@ -2,7 +2,6 @@ import React, { useMemo, useRef, useState } from 'react'
 import OTPModal from './OTPModal'
 import axios from "axios";
 
-const API_UPLOAD = 'https://api.allmyne.com/event/upload'
 export const API_URL = 'https://new-backend.allmyne.com'
 
 function isValidEmail(value: string) {
@@ -71,7 +70,7 @@ export default function UploadCard() {
       setBusy(true)
       setProgress(0)
       const form = new FormData()
-      form.append('email', contact.trim())
+      form.append('contact', contact.trim())
       form.append('image', file)
 
       const res = await uploadWithProgress(form)
@@ -89,7 +88,7 @@ export default function UploadCard() {
     try {
       setIsSendingOTP(true);
       const res = await axios.post(API_URL + '/api/auth/send-code', {
-        email: contact,
+        contact: contact,
       });
       if (res.data) {
         setOtpOpen(true);
