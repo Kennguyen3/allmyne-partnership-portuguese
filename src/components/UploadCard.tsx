@@ -24,11 +24,25 @@ export default function UploadCard() {
   const [progress, setProgress] = useState<number>(0)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [isSendingOTP, setIsSendingOTP] = useState(false)
+  const [selectedCountry, setSelectedCountry] = useState({
+    name: "Brazil",
+    code: "+55",
+    flag: "🇧🇷",
+  });
 
   const isContactValid = useMemo(() => {
-    const v = contact.trim()
-    return isValidEmail(v) || isValidPhone(v)
-  }, [contact])
+    let v = contact.trim();
+
+    // Nếu người dùng nhập toàn số (vd: 0901234567) mà chưa có dấu "+"
+    const isNumeric = /^[0-9]+$/.test(v);
+    if (isNumeric && selectedCountry?.code) {
+      // Gắn mã quốc gia vào đầu (bỏ 0 đầu nếu có)
+      v = `${selectedCountry.code}${v.replace(/^0+/, '')}`;
+      setContact(v); // cập nhật lại input
+    }
+
+    return isValidEmail(v) || isValidPhone(v);
+  }, [contact, selectedCountry]);
 
   const onChooseFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0] ?? null
@@ -105,11 +119,6 @@ export default function UploadCard() {
   };
 
 
-  const [selectedCountry, setSelectedCountry] = useState({
-    name: "United States",
-    code: "+1",
-    flag: "🇺🇸",
-  });
 
   const handleCountryChange = (e: any) => {
     const country = countries.find((c) => c.code === e.target.value);
@@ -131,7 +140,7 @@ export default function UploadCard() {
           <p className="lead">Điền liên hệ → Verify → Tải ảnh → Gửi</p>
         </div> */}
 
-        {/* 
+
         <div className="space-y-2">
           <label className="block text-sm font-medium">Email or Phone</label>
           <div className="flex gap-2">
@@ -200,9 +209,13 @@ export default function UploadCard() {
               )}
             </button>
           </div>
-        </div> */}
+          {!isContactValid && contact && (
+            <div className="text-xs text-red-600">Invalid format. E.g., you@example.com or +8490xxxxxxx</div>
+          )}
+          {verified && <div className="text-xs text-green-600">✔ Contact verified</div>}
+        </div>
 
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <label className="block text-sm font-medium">Email or Phone</label>
           <div className="flex gap-2">
             <input
@@ -254,7 +267,7 @@ export default function UploadCard() {
             <div className="text-xs text-red-600">Invalid format. E.g., you@example.com or +8490xxxxxxx</div>
           )}
           {verified && <div className="text-xs text-green-600">✔ Contact verified</div>}
-        </div>
+        </div> */}
 
         <div className={`space-y-2 ${verified ? '' : 'opacity-50 pointer-events-none'}`}>
           <label className="block text-sm font-medium">Upload Your Selfie</label>
