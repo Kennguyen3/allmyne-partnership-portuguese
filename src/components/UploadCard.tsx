@@ -121,7 +121,7 @@ export default function UploadCard() {
 
 
   const handleCountryChange = (e: any) => {
-    const country = countries.find((c) => c.code === e.target.value);
+    const country = countries.find((c) => c.name === e.target.value);
     if (country) {
       setSelectedCountry(country);
       // Nếu input hiện tại là số, tự động cập nhật prefix
@@ -147,12 +147,12 @@ export default function UploadCard() {
           <div className="flex flex-wrap gap-2 w-full">
 
             <select
-              value={selectedCountry.code}
+              value={selectedCountry.name}
               onChange={handleCountryChange}
-              className="border border-gray-300 rounded-lg px-2 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500 shrink-0"
+              className="border border-gray-300 rounded-lg px-2 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500"
             >
               {countries.map((country) => (
-                <option key={country.code} value={country.code}>
+                <option key={country.name} value={country.name}>
                   {country.flag} {country.name} ({country.code})
                 </option>
               ))}
