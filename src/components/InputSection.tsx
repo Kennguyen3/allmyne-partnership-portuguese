@@ -6,10 +6,9 @@ export default function InputSection() {
     <main>
       {/* Hero */}
       <section className="container pt-8 pb-4 text-center">
-        <h1 className="h1">Two Friends, One Photo. <br />Scan to Win $500 USD!</h1>
-        <p className="lead mt-2">Join ALLMYNE's Friends Take You Further campaign at Copacabana Beach! Snap a photo with a friend, register in seconds, and you could walk away with $500 USD. It's that simple. Ready to win?</p>
+        <h1 className="h1">Take a Beach Selfie, Spin to Win Travel Prizes or $500 Cash!</h1>
+        <p className="lead mt-2">Snap a beach selfie, register in seconds, and you could win travel prizes or $500 cash!</p>
       </section>
-
 
       <QuickEntry />
       {/* Upload & contact card */}

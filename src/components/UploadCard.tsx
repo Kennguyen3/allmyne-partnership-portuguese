@@ -13,6 +13,9 @@ function isValidPhone(value: string) {
 }
 
 export default function UploadCard() {
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [contact, setContact] = useState('')
   const [verified, setVerified] = useState(false)
   const [file, setFile] = useState<File | null>(null)
@@ -87,6 +90,8 @@ export default function UploadCard() {
       const form = new FormData()
       form.append('contact', contact.trim())
       form.append('image', file)
+      form.append('first_name', firstName)
+      form.append('last_name', lastName)
 
       const res = await uploadWithProgress(form)
       if (!res.ok) throw new Error('Server returned an error')
@@ -169,7 +174,16 @@ export default function UploadCard() {
               className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 grow min-w-[150px]"
               inputMode="email"
             />
-
+            {!isContactValid && contact && (
+              <div className="text-xs text-red-600">
+                Invalid format. Example: you@example.com
+              </div>
+            )}
+            {verified && (
+              <div className="text-xs text-green-600">
+                ✔ Contact verified
+              </div>
+            )}
             <button
               type="button"
               disabled={!isContactValid || isSendingOTP}
@@ -181,22 +195,38 @@ export default function UploadCard() {
               {isSendingOTP ? "Sending..." : "Verify"}
             </button>
           </div>
+          {/* First Name + Last Name */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium">Your Name</label>
 
-          {!isContactValid && contact && (
-            <div className="text-xs text-red-600">
-              Invalid format. Example: you@example.com
+            <div className="flex flex-col sm:flex-row gap-3 w-full">
+              {/* First Name */}
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First name"
+                className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 w-full min-w-0"
+              />
+
+              {/* Last Name */}
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last name"
+                className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 w-full min-w-0"
+              />
             </div>
-          )}
-          {verified && (
-            <div className="text-xs text-green-600">
-              ✔ Contact verified
-            </div>
-          )}
+          </div>
         </div>
         <div className={`space-y-2 ${verified ? '' : 'opacity-50 pointer-events-none'}`}>
           <label className="block text-sm font-medium">Upload Your Selfie</label>
           <div className="flex items-center gap-3">
-            <label className="btn btn-outline cursor-pointer">
+            <label className="cursor-pointer inline-flex items-center justify-center
+                  px-4 py-1.5 rounded-full border border-slate-300
+                  text-sm font-medium text-slate-700
+                  hover:bg-slate-100 transition whitespace-nowrap">
               <input
                 ref={fileInputRef}
                 type="file"

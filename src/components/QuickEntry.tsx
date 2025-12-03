@@ -23,12 +23,14 @@ export default function QuickEntry() {
     }
 
     return (
-        <section className="container py-10">
-            <div className="grid md:grid-cols-2 gap-8 items-start">
+        <section className="w-full max-w-screen-xl mx-auto px-4 py-10 overflow-x-hidden">
+
+            <div className="grid md:grid-cols-2 gap-8 items-start w-full max-w-full">
+
                 {/* Left column: steps */}
-                <div>
+                <div className="w-full min-w-0">
                     <h2 className="text-2xl sm:text-3xl font-bold mb-6">
-                        Quick Entry Form — <span className="text-brand">Win $500 USD!</span>
+                        UPDATES TO INSTRUCTIONS:
                     </h2>
 
                     {/* Step 1 */}
@@ -37,9 +39,10 @@ export default function QuickEntry() {
                             Step 1: <span className="text-slate-900">Your Contact Info</span>
                         </h3>
                         <p className="text-slate-600">
-                            Enter your <strong>email</strong> or <strong>WhatsApp number</strong> so we can reach you when you win!
+                            Enter your <strong>email</strong> to register and so we can reach you when you win!
                         </p>
                     </div>
+
                     <hr className="border-slate-200 my-4" />
 
                     {/* Step 2 */}
@@ -48,19 +51,27 @@ export default function QuickEntry() {
                             Step 2: <span className="text-slate-900">Upload Your Selfie</span>
                         </h3>
                         <p className="text-slate-600">
-                            Snap a photo with your friend right now or upload from your camera roll. Make it fun and memorable!
+                            Snap a <strong>selfie or a photo with a friend</strong> and upload from your camera roll.
                         </p>
                     </div>
+
                     <hr className="border-slate-200 my-4" />
 
+                    {/* Upload Card */}
+                    <div
+                        ref={uploadRef}
+                        className="mt-10 animate-fadeIn w-full max-w-full overflow-x-hidden"
+                    >
+                        <UploadCard />
+                    </div>
                     {/* Step 3 */}
                     <div className="mb-5">
                         <h3 className="font-semibold text-lg mb-1">
-                            Step 3: <span className="text-slate-900">Create Your Travel Journal</span>
+                            Step 3: <span className="text-slate-900">Submit & Enter</span>
                         </h3>
                         <p className="text-slate-600">
-                            <strong>Journal creation is required for contest entry.</strong><br />
-                            Complete your entry by creating a Travel Journal in the ALLMYNE app.
+                            Hit ‘Submit’ and you’ll immediately receive a link to download the app via your registered email address.
+
                         </p>
                     </div>
                     <hr className="border-slate-200 my-4" />
@@ -68,15 +79,15 @@ export default function QuickEntry() {
                     {/* Step 4 */}
                     <div className="mb-6">
                         <h3 className="font-semibold text-lg mb-1">
-                            Step 4: <span className="text-slate-900">Submit & Enter</span>
+                            Step 4: <span className="text-slate-900">Download the App and Show Us Your Profile</span>
                         </h3>
                         <p className="text-slate-600">
-                            Hit the big button below to complete your entry. You&apos;ll get your Explorer Badge instantly!
+                            Show one of our team members your ALLMYNE profile and earn a spin a win!
                         </p>
                     </div>
 
                     {/* Submit Button */}
-                    <button
+                    {/* <button
                         type="button"
                         onClick={() => {
                             console.log(' set show upload true ')
@@ -85,7 +96,7 @@ export default function QuickEntry() {
                         className="bg-[#1e2761] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#11194a] transition w-full sm:w-auto"
                     >
                         Submit Photo &amp; Enter to Win!
-                    </button>
+                    </button> */}
                 </div>
 
                 {/* Right column: image and privacy box */}
@@ -114,11 +125,11 @@ export default function QuickEntry() {
             </div>
 
             {/* UploadCard appears after clicking submit */}
-            {showUpload && (
+            {/* {showUpload && (
                 <div ref={uploadRef} className="mt-10 animate-fadeIn">
                     <UploadCard />
                 </div>
-            )}
+            )} */}
         </section>
     )
 }

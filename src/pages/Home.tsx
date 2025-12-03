@@ -8,7 +8,7 @@ import InputSection from '../components/InputSection'
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      {/* <Navbar /> */}
       <Hero />
       <InputSection />
       {/* <Explore /> */}
