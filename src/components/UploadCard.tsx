@@ -142,11 +142,11 @@ export default function UploadCard() {
 
 
         <div className="space-y-2 w-full">
-          <label className="block text-sm font-medium">Email or Phone</label>
+          <label className="block text-sm font-medium">Email</label>
 
           <div className="flex flex-wrap gap-2 w-full">
 
-            <select
+            {/* <select
               value={selectedCountry.name}
               onChange={handleCountryChange}
               className="border border-gray-300 rounded-lg px-2 py-2 text-sm bg-white focus:ring-2 focus:ring-blue-500"
@@ -156,7 +156,7 @@ export default function UploadCard() {
                   {country.flag} {country.name} ({country.code})
                 </option>
               ))}
-            </select>
+            </select> */}
 
             <input
               type="text"
@@ -165,7 +165,7 @@ export default function UploadCard() {
                 setContact(e.target.value);
                 setVerified(false);
               }}
-              placeholder="Enter your email or WhatsApp number"
+              placeholder="Enter your email"
               className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 grow min-w-[150px]"
               inputMode="email"
             />
@@ -184,7 +184,7 @@ export default function UploadCard() {
 
           {!isContactValid && contact && (
             <div className="text-xs text-red-600">
-              Invalid format. Example: you@example.com or +8490xxxxxxx
+              Invalid format. Example: you@example.com
             </div>
           )}
           {verified && (
@@ -193,62 +193,6 @@ export default function UploadCard() {
             </div>
           )}
         </div>
-
-
-        {/* <div className="space-y-2">
-          <label className="block text-sm font-medium">Email or Phone</label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={contact}
-              onChange={(e) => { setContact(e.target.value); setVerified(false); }}
-              placeholder="Enter your email or WhatsApp number"
-              className="input flex-1"
-              inputMode="email"
-            />
-            <button
-              type="button"
-              disabled={!isContactValid || isSendingOTP}
-              onClick={handleSendOtp}
-              className={`btn btn-outline flex items-center justify-center gap-2 ${!isContactValid ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-              title={isContactValid ? "Send and enter OTP" : "Enter a valid contact first"}
-            >
-              {isSendingOTP ? (
-                <>
-                  <svg
-                    className="animate-spin h-5 w-5 text-blue-500"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                    ></path>
-                  </svg>
-                  <span>Sending...</span>
-                </>
-              ) : (
-                "Verify"
-              )}
-            </button>
-          </div>
-          {!isContactValid && contact && (
-            <div className="text-xs text-red-600">Invalid format. E.g., you@example.com or +8490xxxxxxx</div>
-          )}
-          {verified && <div className="text-xs text-green-600">✔ Contact verified</div>}
-        </div> */}
-
         <div className={`space-y-2 ${verified ? '' : 'opacity-50 pointer-events-none'}`}>
           <label className="block text-sm font-medium">Upload Your Selfie</label>
           <div className="flex items-center gap-3">
