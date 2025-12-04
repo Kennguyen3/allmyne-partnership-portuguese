@@ -1,5 +1,4 @@
 import QuickEntry from "./QuickEntry";
-import UploadCard from "./UploadCard";
 
 export default function InputSection() {
   return (
