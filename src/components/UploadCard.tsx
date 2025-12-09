@@ -95,7 +95,7 @@ export default function UploadCard() {
 
       const res = await uploadWithProgress(form)
       if (!res.ok) throw new Error('Server returned an error')
-      setPopup('🎉 Thanks for your submission!')
+      setPopup('Success!')
     } catch (err: any) {
       setError(err?.message || 'Submission failed, please try again later.')
     } finally {
@@ -117,7 +117,11 @@ export default function UploadCard() {
       }
     } catch (error) {
       console.error("Send OTP error:", error);
-      alert("An error occurred while sending OTP.");
+      const axiosError = error as any;
+      const errorData = axiosError?.response?.data;
+      if (errorData?.message) {
+        alert(`Error: ${errorData.message}`);
+      } else alert("An error occurred while sending OTP.");
     } finally {
       setIsSendingOTP(false);
     }

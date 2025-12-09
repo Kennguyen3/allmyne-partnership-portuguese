@@ -29,9 +29,9 @@ export default function QuickEntry() {
 
                 {/* Left column: steps */}
                 <div className="w-full min-w-0">
-                    <h2 className="text-2xl sm:text-3xl font-bold mb-6">
+                    {/* <h2 className="text-2xl sm:text-3xl font-bold mb-6">
                         UPDATES TO INSTRUCTIONS:
-                    </h2>
+                    </h2> */}
 
                     {/* Step 1 */}
                     <div className="mb-5">
@@ -101,14 +101,14 @@ export default function QuickEntry() {
 
                 {/* Right column: image and privacy box */}
                 <div className="space-y-6">
-                    <div className="rounded-xl overflow-hidden shadow-md">
+                    {/* <div className="rounded-xl overflow-hidden shadow-md"> */}
                         {/* <img
               src="https://cdn.allmyne.com/mockups/allmyne-phone-on-beach.png"
               alt="ALLMYNE app on phone at beach"
               className="w-full object-cover"
             /> */}
-                        <img src={selfieImage} alt="ALLMYNE" className="w-full object-cover" />
-                    </div>
+                        {/* <img src={selfieImage} alt="ALLMYNE" className="w-full object-cover" /> */}
+                    {/* </div> */}
                     <div className="bg-brand-light border border-brand/20 rounded-lg p-4 text-sm text-slate-700">
                         <p className="font-semibold mb-1 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-brand">

@@ -1,10 +1,11 @@
 import { IMAGES } from '../assets/images'
 import logo from '../assets/logo.svg'
+import selfieImage from '../assets/selfie-group.png'
 
 export default function Hero() {
   return (
     <section className="relative w-full">
-      <img src={IMAGES.heroWing} alt="Airplane wing at sunset" className="w-full h-[260px] sm:h-[320px] md:h-[420px] object-cover" />
+      <img src={selfieImage} alt="Airplane wing at sunset" className="w-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
       <div className="container absolute inset-x-0 bottom-6">
         <div className="text-white max-w-xl">
