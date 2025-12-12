@@ -95,7 +95,7 @@ export default function UploadCard() {
 
       const res = await uploadWithProgress(form)
       if (!res.ok) throw new Error('Server returned an error')
-      setPopup('Success!')
+      setPopup('Please check your email to download the app!')
     } catch (err: any) {
       setError(err?.message || 'Submission failed, please try again later.')
     } finally {
@@ -270,17 +270,18 @@ export default function UploadCard() {
       </form>
 
       {popup && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-6 max-w-sm mx-auto text-center">
-            <p className="text-lg">{popup}</p>
-            <button
-              className="btn btn-primary mt-4 w-full"
-              onClick={() => setPopup(null)}
-            >
-              Đóng
-            </button>
-          </div>
-        </div>
+<div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+  <div className="bg-white rounded-2xl p-8 w-11/12 max-w-2xl mx-auto text-center shadow-xl">
+    <p className="text-xl font-semibold mb-4">{popup}</p>
+
+    <button
+      className="btn btn-primary mt-4 w-full py-3 text-lg"
+      onClick={() => setPopup(null)}
+    >
+      Close
+    </button>
+  </div>
+</div>
       )}
 
       <OTPModal
