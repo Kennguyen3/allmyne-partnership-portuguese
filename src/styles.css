@@ -13,7 +13,7 @@ body,
 }
 
 .h1 {
-    @apply text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl;
+    @apply text-2xl font-bold sm:text-3xl md:text-4xl;
     font-family: theme('fontFamily.serif');
 }
 
@@ -27,11 +27,11 @@ body,
 }
 
 .btn {
-    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-full font-semibold transition border border-slate-200;
+    @apply inline-flex items-center justify-center rounded-lg border border-slate-200 px-5 py-2.5 font-semibold transition;
 }
 
 .btn-primary {
-    @apply bg-slate-900 text-white border-slate-900 hover:bg-black;
+    @apply border-brand bg-brand text-white shadow-sm shadow-brand/20 hover:bg-brand-dark;
 }
 
 .btn-ghost {
@@ -40,10 +40,6 @@ body,
 
 .btn-full {
     @apply w-full md:w-auto;
-}
-
-.card {
-    @apply bg-white border border-slate-200 rounded-xl2 shadow-card;
 }
 
 .link {
@@ -56,11 +52,11 @@ body,
 }
 
 .card {
-    @apply bg-white border border-slate-200 rounded-2xl shadow-card;
+    @apply rounded-lg border border-slate-200 bg-white shadow-card;
 }
 
 .input {
-    @apply w-full border border-slate-300 rounded-xl p-3 text-base;
+    @apply w-full rounded-lg border border-slate-300 p-3 text-base;
 }
 
 @layer utilities {

@@ -42,7 +42,7 @@ export default function OTPModal({ open, onClose, onVerified, contact }: Props) 
     console.log('Submitting OTP:', digits)
     console.log('Contact:', contact)
     const otp = digits.join('')
-    if (otp.length !== 6) { setError('Enter 6-digit OTP'); return }
+    if (otp.length !== 6) { setError('Digite o codigo de 6 digitos.'); return }
     try {
       setBusy(true); setError(null)
       const res = await axios.post(API_URL + '/api/auth/verify-code', {
@@ -55,8 +55,7 @@ export default function OTPModal({ open, onClose, onVerified, contact }: Props) 
       onVerified()
     } catch (err: any) {
       console.error("Verify OTP error:", err);
-      const serverMessage = err.response?.data?.message || err.message || "Unknown error occurred.";
-      setError(serverMessage);
+      setError("Codigo invalido. Tente novamente.");
     } finally {
       setBusy(false);
     }
@@ -64,12 +63,12 @@ export default function OTPModal({ open, onClose, onVerified, contact }: Props) 
 
   if (!open) return null
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl p-6 max-w-sm mx-auto w-[92%]">
-        <h3 className="text-lg font-semibold text-center">Enter OTP code</h3>
-        <p className="text-sm text-slate-600 text-center mt-1">We have sent a 6-digit code to <strong>{contact}</strong></p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+      <div className="mx-auto w-full max-w-sm rounded-lg bg-white p-6">
+        <h3 className="text-center text-lg font-semibold text-slate-950">Digite o codigo OTP</h3>
+        <p className="mt-1 text-center text-sm text-slate-600">Enviamos um codigo de 6 digitos para <strong>{contact}</strong>.</p>
 
-        <div className="flex justify-center gap-2 mt-4">
+        <div className="mt-4 flex justify-center gap-2">
           {digits.map((d, i) => (
             <input
               key={i}
@@ -79,15 +78,16 @@ export default function OTPModal({ open, onClose, onVerified, contact }: Props) 
               onKeyDown={(e) => onKeyDown(i, e)}
               inputMode="numeric"
               maxLength={1}
-              className="w-10 h-12 text-center text-xl border border-slate-300 rounded-lg"
+              aria-label={`Digito ${i + 1}`}
+              className="h-12 w-10 rounded-lg border border-slate-300 text-center text-xl focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
             />
           ))}
         </div>
 
-        {error && <div className="text-sm text-red-600 text-center mt-3">{error}</div>}
+        {error && <div className="mt-3 text-center text-sm text-red-600">{error}</div>}
 
         <div className="mt-5 grid grid-cols-2 gap-3">
-          <button onClick={onClose} className="btn btn-outline">Close</button>
+          <button onClick={onClose} className="btn btn-outline">Fechar</button>
           <button
             onClick={submitOTP}
             disabled={busy}
@@ -96,7 +96,7 @@ export default function OTPModal({ open, onClose, onVerified, contact }: Props) 
           >
             {busy ? (
               <>
-                {/* Spinner (TailwindCSS) */}
+                {/* Tailwind spinner */}
                 <svg
                   className="animate-spin h-5 w-5 text-white"
                   xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +119,7 @@ export default function OTPModal({ open, onClose, onVerified, contact }: Props) 
                 </svg>
               </>
             ) : (
-              "Confirm"
+              "Confirmar"
             )}
           </button>
         </div>
