@@ -4,8 +4,32 @@ import axios from "axios";
 
 export const API_URL = 'https://new-backend.allmyne.com'
 
+type PopupState = {
+  title: string
+  message: string
+  tone: 'success' | 'error'
+}
+
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
+function getSendCodeErrorMessage(error: any) {
+  const apiMessage = error?.response?.data?.message || error?.message || ''
+
+  if (/email is already in use/i.test(apiMessage)) {
+    return 'Este e-mail ja esta cadastrado no ALLMYNE. Para este evento, voce pode verificar o mesmo e-mail da sua conta.'
+  }
+
+  if (/valid email|required|invalid contact/i.test(apiMessage)) {
+    return 'Digite um e-mail valido para receber o codigo.'
+  }
+
+  if (/network/i.test(apiMessage)) {
+    return 'Nao foi possivel conectar ao servidor. Verifique sua internet e tente novamente.'
+  }
+
+  return 'Nao foi possivel enviar o codigo agora. Tente novamente em alguns instantes.'
 }
 
 export default function UploadCard() {
@@ -17,16 +41,17 @@ export default function UploadCard() {
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
-  const [popup, setPopup] = useState<string | null>(null)
+  const [popup, setPopup] = useState<PopupState | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [otpOpen, setOtpOpen] = useState(false)
   const [progress, setProgress] = useState<number>(0)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [isSendingOTP, setIsSendingOTP] = useState(false)
+  const normalizedContact = useMemo(() => contact.trim().toLowerCase(), [contact])
 
   const isContactValid = useMemo(() => {
-    return isValidEmail(contact.trim());
-  }, [contact]);
+    return isValidEmail(normalizedContact);
+  }, [normalizedContact]);
 
   const onChooseFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0] ?? null
@@ -69,16 +94,24 @@ export default function UploadCard() {
       setBusy(true)
       setProgress(0)
       const form = new FormData()
-      form.append('contact', contact.trim())
+      form.append('contact', normalizedContact)
       form.append('image', file)
       form.append('first_name', firstName)
       form.append('last_name', lastName)
 
       const res = await uploadWithProgress(form)
       if (!res.ok) throw new Error('Nao foi possivel enviar sua selfie. Tente novamente.')
-      setPopup('Verifique seu e-mail para baixar o app.')
+      setPopup({
+        title: 'Selfie enviada',
+        message: 'Verifique seu e-mail para baixar o app e ativar seu mes gratis de ALLMYNE Pro.',
+        tone: 'success',
+      })
     } catch (err: any) {
-      setError(err?.message || 'Nao foi possivel enviar. Tente novamente mais tarde.')
+      setPopup({
+        title: 'Nao foi possivel enviar',
+        message: err?.message || 'Nao foi possivel enviar. Tente novamente mais tarde.',
+        tone: 'error',
+      })
     } finally {
       setBusy(false)
       setProgress(0)
@@ -86,19 +119,38 @@ export default function UploadCard() {
   }
 
   const handleSendOtp = async () => {
+    if (!isContactValid) {
+      setPopup({
+        title: 'E-mail invalido',
+        message: 'Digite um e-mail valido para receber o codigo.',
+        tone: 'error',
+      })
+      return
+    }
+
     try {
+      setError(null)
       setIsSendingOTP(true);
-      const res = await axios.post(API_URL + '/api/auth/send-code', {
-        contact: contact,
+      const res = await axios.post(API_URL + '/api/partnership-event/portuguese/send-code', {
+        contact: normalizedContact,
       });
-      if (res.data) {
+      const responseData = res.data as { result?: boolean }
+      if (responseData?.result) {
         setOtpOpen(true);
       } else {
-        alert("Nao foi possivel enviar o codigo. Tente novamente.");
+        setPopup({
+          title: 'Codigo nao enviado',
+          message: 'Nao foi possivel enviar o codigo. Tente novamente.',
+          tone: 'error',
+        })
       }
     } catch (error) {
       console.error("Send OTP error:", error);
-      alert("Ocorreu um erro ao enviar o codigo.");
+      setPopup({
+        title: 'Codigo nao enviado',
+        message: getSendCodeErrorMessage(error),
+        tone: 'error',
+      })
     } finally {
       setIsSendingOTP(false);
     }
@@ -235,7 +287,19 @@ export default function UploadCard() {
       {popup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
           <div className="mx-auto w-full max-w-md rounded-lg bg-white p-6 text-center shadow-xl">
-            <p className="mb-4 text-xl font-semibold text-slate-950">{popup}</p>
+            <div className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full ${popup.tone === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+              {popup.tone === 'success' ? (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden="true">
+                  <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53-1.626-1.626a.75.75 0 10-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden="true">
+                  <path fillRule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.198 0l7.355 12.74c1.155 2-.289 4.5-2.599 4.5H4.645c-2.31 0-3.754-2.5-2.599-4.5l7.355-12.74zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
+                </svg>
+              )}
+            </div>
+            <h2 className="mb-2 text-xl font-semibold text-slate-950">{popup.title}</h2>
+            <p className="mb-4 text-sm leading-6 text-slate-600">{popup.message}</p>
 
             <button
               className="btn btn-primary mt-2 w-full py-3 text-base"
@@ -251,7 +315,7 @@ export default function UploadCard() {
         open={otpOpen}
         onClose={() => setOtpOpen(false)}
         onVerified={() => setVerified(true)}
-        contact={contact.trim()}
+        contact={normalizedContact}
       />
     </section>
   )
