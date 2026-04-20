@@ -37,7 +37,7 @@ export default function UploadCard() {
   const uploadWithProgress = (form: FormData) => {
     return new Promise<Response>((resolve, reject) => {
       const xhr = new XMLHttpRequest()
-      xhr.open('POST', API_URL + '/api/partnership-event/upload-image')
+      xhr.open('POST', API_URL + '/api/partnership-event/portuguese/upload-image')
       xhr.onload = () => {
         // Create a minimal Response-like object
         const ok = xhr.status >= 200 && xhr.status < 300
